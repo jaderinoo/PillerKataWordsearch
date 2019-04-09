@@ -35,49 +35,26 @@ public class Main {
 			int size = boardArray[0].length;
 			//Runs through the char array and finds the matching first letter
 			for (int row = 0; row < size; row++) {
-				for (int column = 0; column < size; column++) {
-					if (wordFound == false && boardArray[row][column] == word.charAt(0)) {
-						wordFound = wordFind(word, row, column, boardArray);
+				for (int col = 0; col < size; col++) {
+					//If the letter is found then run the wordFind function with the letter and location
+					if (wordFound == false && boardArray[row][col] == word.charAt(0)) {
+						wordFound = wordFind(row, col, boardArray, word);
 					}
 				}
 			}
+			//If a word isn't returned, word doesn't exist
 			if (wordFound == false)
 				System.out.println(word + " Word doesnt exist.");
 		}
 	}
 
-	public static boolean wordFind(String word, int x, int y, char[][] boardArray) { 
-		boolean check = false;
+	public static boolean wordFind(int x, int y, char[][] boardArray, String word) { 
+		//Initialize an int for the wordSize based off the length of the word
 		int wordSize = word.length();
+		//Initialize boolean to check if the word has been found or not
+		boolean check = false;
 
-		//Words to the left
-		if ((y - wordSize) >= -1) {
-			int counter = 0;
-			String[] temp = new String[word.length()];
-			for (int i = y; i >= (y - wordSize) + 1; i--) {
-				//Saves position of letter to temp array
-				temp[counter] = word.charAt(counter) + ": (" + x +","+ i + ") ";
-				if (word.charAt(counter) != boardArray[x][i]) {
-					break;
-				}
-				//If the size of the word is matched
-				if (i == (y - wordSize) + 1) {
-					check = true;
-
-					//Print the word coordinates
-					for(int z=0;z<=word.length();z++) {
-						System.out.print(temp[z]);
-						if(z == word.length()-1) {
-							System.out.println();
-							break;
-						}
-					}
-				}
-				counter++;
-			}
-		}
-
-		//Words to the right
+		//Check if word is to the right
 		if ((y + wordSize) <= boardArray[0].length) { 
 			int counter = 0;
 			String[] temp = new String[word.length()];
@@ -102,8 +79,35 @@ public class Main {
 				counter++;
 			}
 		}
+		
+		//Check if word is to the left
+				if ((y - wordSize) >= -1) {
+					int counter = 0;
+					String[] temp = new String[word.length()];
+					for (int i = y; i >= (y - wordSize) + 1; i--) {
+						//Saves position of letter to temp array
+						temp[counter] = word.charAt(counter) + ": (" + x +","+ i + ") ";
+						if (word.charAt(counter) != boardArray[x][i]) {
+							break;
+						}
+						//If the size of the word is matched
+						if (i == (y - wordSize) + 1) {
+							check = true;
 
-		//Words going up
+							//Print the word coordinates
+							for(int z=0;z<=word.length();z++) {
+								System.out.print(temp[z]);
+								if(z == word.length()-1) {
+									System.out.println();
+									break;
+								}
+							}
+						}
+						counter++;
+					}
+				}
+
+		//Check if the word is above the letter
 		if ((x - wordSize) >= -1) {
 			int counter = 0;
 			String[] temp = new String[word.length()];
@@ -129,7 +133,7 @@ public class Main {
 			}
 		}
 
-		//Words going down
+		//Check if the word is below the letter
 		if ((x + wordSize) <= boardArray[0].length) {
 			int counter = 0;
 			String[] temp = new String[word.length()];
@@ -155,7 +159,7 @@ public class Main {
 			}
 		}
 
-		//Top left words
+		//Check if the word is diag top left
 		if ((x - wordSize) >= -1 && (y - wordSize) >= -1) {
 			int counter = 0;
 			int j = y;
@@ -183,7 +187,7 @@ public class Main {
 			}
 		}
 
-		//Top right words
+		//Check if the word is diag top right
 		if ((x - wordSize) >= -1 && (y + wordSize) <= boardArray[0].length) {
 			int wordPos = 0;
 			int j = y;
@@ -211,7 +215,7 @@ public class Main {
 			}
 		}
 
-		//Bottom left words
+		//Check if the word is diag bottom left
 		if ((x + wordSize) <= boardArray[0].length && (y - wordSize) >= -1) {
 			int counter = 0;
 			int j = y;
@@ -239,7 +243,7 @@ public class Main {
 			}
 		}
 
-		//Bottom right words
+		//Check if the word is diag top right
 		if ((x + wordSize) <= boardArray[0].length && (y + wordSize) <= boardArray[0].length) {
 			int counter = 0;
 			int j = y;
@@ -268,7 +272,6 @@ public class Main {
 		}
 		return check;
 	}
-
 
 	public static String[] inputToString(String fileName)throws Exception 
 	{ 
