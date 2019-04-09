@@ -13,7 +13,6 @@ public class Main {
 		String firstLine = batch[0];
 		//Converts the firstLine string into individual words in an array
 		String[] words = firstLine.split("\\W+");
-
 		//Create 2d Char array
 		char[][] boardArray = new char[15][15];
 		int next = 0;
@@ -31,6 +30,7 @@ public class Main {
 			//Prints out and chooses the word that will be searched for
 			String word = words[i];
 			System.out.println(word);
+			//Initialize the wordFound boolean to check if the word is found
 			boolean wordFound = false;
 			int size = boardArray[0].length;
 			//Runs through the char array and finds the matching first letter
@@ -38,6 +38,7 @@ public class Main {
 				for (int col = 0; col < size; col++) {
 					//If the letter is found then run the wordFind function with the letter and location
 					if (wordFound == false && boardArray[row][col] == word.charAt(0)) {
+						//Send row, col, the array, and the word to the wordFind function
 						wordFound = wordFind(row, col, boardArray, word);
 					}
 				}
@@ -93,7 +94,6 @@ public class Main {
 						//If the size of the word is matched
 						if (i == (y - wordSize) + 1) {
 							check = true;
-
 							//Print the word coordinates
 							for(int z=0;z<=word.length();z++) {
 								System.out.print(temp[z]);
